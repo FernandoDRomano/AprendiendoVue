@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendiendo Vue</title>
+</head>
+<body>
+    
+    <div id="app1">
+        <h2>Primera App con Vue</h2>
+        <ul>
+            <!-- 
+                v-for ES LA DIRECTIVA PARA REALIZAR UN CICLO
+                
+                v-for="item in items" 
+
+                EN DONDE items ES UN ARREGLO DE ITEMS
+             -->
+            <li v-for="producto in listaDeProductos">
+                {{producto}}
+            </li>
+        </ul>
+    </div>
+
+    <div id="app2">
+        <h2>Segunda App con Vue</h2>
+        <!-- 
+            v-on SE UTILIZA PARA DETERMINAR UN EVENTO, EN ESTE CASO PARA DETERMINAR EL EVENTO DEL SUBMIT
+
+            v-on:submit.prevent="guardarTarea" 
+            EN ESTE CASO CUANDO SE DETECTA EL SUBMIT, SE ELIMINA EL COMPORTAMIENTO POR DEFECTO Y SE LLAMA AL METODO guardarTarea
+         -->
+        <form action="" v-on:submit.prevent="guardarTarea">
+            <!-- 
+                v-model SE UTILIZA PARA VINCULAR CON LOS MODELOS DE DATOS DE VUE data
+             -->
+            <input v-model="nuevaTarea" type="text">
+            <input type="submit" value="Enviar">
+        </form>
+        <p>Lista de tareas agregadas: </p>
+        <ul>
+            <li v-for="tarea in tareas">
+                {{tarea}}
+            </li>
+        </ul>
+    </div>
+
+    <div id="app3">
+        <h2>Tercera App con vue: v-bind</h2>
+        <input v-model="enlace" type="text" placeholder="Ingresa tu url aqui">
+        <a v-bind:href="enlace">{{enlace}}</a>
+
+        <br>
+        <p>Imagenes de gatos aleatorias</p>
+        <input v-model="ancho" type="range">Ancho
+        <input v-model="alto" type="range">Alto
+        <p>{{urlCompleta}}</p>
+        <br>
+        <img v-bind:src="urlCompleta">
+    </div>
+
+    <div id="app4">
+        <h2>Cuarta App con vue: Profundizando las propiedades computadas y los eventos</h2>
+
+        <p>Agregar Tarea</p>
+
+        <form v-on:submit.prevent="agregarTarea">
+            <input v-model="nuevaTarea" type="text" placeholder="Nueva Tarea">
+            <input type="submit" value="Agregar Tarea">
+        </form>
+
+        <p>Filtrar: </p>
+        <input v-model="tiempo" type="range"> Tiempo {{ tiempo }} hs
+        <br>
+        <input v-model="busqueda" type="text" placeholder="Buscar por nombre">
+        <p>Listado de tareas</p>
+        <ul>
+            <li v-for="tarea in filtrarTareas"> {{ tarea.nombre }} - {{ tarea.tiempo }} hs </li>
+        </ul>
+    </div>
+
+    <div id="app5">
+        <h2>Quinta App con Vue: Instancia vue y su ciclo de vida</h2>
+
+        <ul>
+            <li v-for="usuario in usuarios">
+                {{ usuario.name }} - {{usuario.email}}
+            </li>
+        </ul>
+    </div>
+
+    <div id="app6">
+        <h2>Sexta App con Vue: Watchers</h2>
+
+        <input v-model="password" type="text" placeholder="Introduce tu password">
+
+        <p> {{estado}} </p>
+
+    </div>
+
+    <div id="app7">
+        <h2>Septima App con Vue: Condicionales v-if v-else v-show</h2>
+
+        <form>
+
+            <div>
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre">
+            </div>
+
+            <div>
+                <label for="direccion">Dirección</label>
+                <select v-model="direccion" name="direccion">
+                    <option value="misma">Misma dirección</option>
+                    <option value="nueva">Nueva dirección</option>
+                </select>
+                <br>
+
+                <textarea v-show="direccion === 'nueva' " name="nuevaDireccion" cols="30" rows="5"></textarea>
+            </div>
+
+            <div>
+                <input v-model="check" type="checkbox" name="condiciones" id="">
+                <label for="condiciones">Aceptar terminos y condiciones</label>
+            </div>
+
+            <div>
+                <input v-if="check === true" type="submit" value="Enviar">
+                <p v-else>Debes aceptar los terminos y condiciones para enviar el formulario</p>
+            </div>
+
+        </form>
+    </div>
+
+    <div id="app8">
+        <h2>Octava App con Vue: Filters (Filtros)</h2>
+
+        <ul>
+            <li v-for="post in posts">
+                Titulo: {{ post.title | mayuscula | acortar(15)}}
+            </li>
+        </ul>
+    </div>
+
+    <!-- Vue js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
