@@ -143,6 +143,54 @@
         </ul>
     </div>
 
+    <div id="app9">
+        <h2>Novena App con Vue: Utilizando Axios</h2>
+
+        <p>Agregar nuevo Usuario</p>
+
+        <form v-on:submit.prevent="agregarUsuario">
+            
+            <label for="name">Name</label>
+            <input v-model="form.name" type="text" name="name">
+            <br>
+
+            <label for="username">Username</label>
+            <input v-model="form.username" type="text" name="username">
+            <br>
+
+            <label for="email">Email</label>
+            <input v-model="form.email" type="email" name="email">
+            <br>
+
+            <label for="website">Website</label>
+            <input v-model="form.website" type="text" name="website">
+            <br>
+
+            <input type="submit" value="Agregar">
+
+        </form>
+
+        <table style="width:100%">
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Website</th>
+            </tr>
+            <tr v-for="usuario in usuarios">
+              <td>{{ usuario.name }}</td>
+              <td>{{ usuario.username }}</td>
+              <td>{{ usuario.email }}</td>
+              <td>{{ usuario.website }}</td>
+            </tr>
+        </table>
+
+
+    </div>
+
+    <!-- AXIOS -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <!-- Vue js -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 

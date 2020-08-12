@@ -186,4 +186,60 @@ new Vue({
             return datos.substring(0, cantidad) + '... seguir leyendo';
         }
     }
-})
+});
+
+new Vue({
+    el: '#app9',
+    data:{
+        usuarios: [],
+        url: "https://jsonplaceholder.typicode.com/users",
+        form: {
+            name: '',
+            username: '',
+            email: '',
+            wwebsite: ''
+        }
+    },
+    methods: {
+        agregarUsuario(){
+            axios.post(this.url, {
+                name: this.form.name,
+                username: this.form.username,
+                email: this.form.email,
+                website: this.form.website,
+                id: Math.floor(Math.random * 10) + 1
+            })
+            .then(
+                respuesta => {
+                    console.log(respuesta);
+
+                    //AGREGO EL USUARIO AL MODELO
+                    this.usuarios.unshift({
+                        name: this.form.name,
+                        username: this.form.username,
+                        email: this.form.email,
+                        website: this.form.website,
+                    });
+
+                    //LIMPIO
+                    this.form.name = '';
+                    this.form.username = '';
+                    this.form.email = '';
+                    this.form.website = '';
+                }
+            )
+            .catch(
+                error => console.error(error)
+            )
+        }
+    },
+    mounted() {
+        axios.get(this.url)
+            .then(
+                respuesta => this.usuarios = respuesta.data
+            )
+            .catch(
+                error => console.error(error)
+            )
+    },
+});
