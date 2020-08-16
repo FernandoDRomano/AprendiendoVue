@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Componentes Vue</title>
+
+
+    <style>
+        .btn{
+            border: 1px solid black;
+            padding: .7rem 0;
+            display: block;
+            margin: 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: .5rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app1">
+        <h2>Primer Componente con Vue</h2>
+        <gato></gato>
+        <gato></gato>
+        <gato></gato>
+        <gato></gato>
+    </div>
+
+    <div id="app2">
+        <h2>Segundo Componente con Vue: Propiedades dinámicas</h2>
+
+        <boton v-for="boton in botones" :enlace="boton.enlace" :color="boton.color" :anchor-text="boton.anchorText"></boton>
+
+    </div>
+
+    <div id="app3">
+        <h2>Tercer Componente con Vue: Componentes locales</h2>
+        <destino></destino>
+        <btn color="pink" enlace="https://www.wmedia.es" anchor-text="Wmedia"></btn>
+
+    </div>
+
+     <!-- Vue js -->
+     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+     <script src="script.js"></script>
+</body>
+</html>
