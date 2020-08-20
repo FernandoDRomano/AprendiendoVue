@@ -80,6 +80,14 @@
             text-align: center;
         }
 
+        .boton{
+            font-size: 1rem;
+            font-weight: bold;
+            padding: .5rem 1rem;
+            color: white;
+            background-color: teal;
+        }
+
     </style>
 </head>
 <body>
@@ -208,6 +216,35 @@
         
     </div>
 
+    <div id="app8">
+        <h2>Octavo Componente con Vue: Componentes dinamicos</h2>
+
+        <button 
+            v-for="tab in tabs"
+            v-on:click="cambiarComponente(tab)" 
+            class="boton">
+            {{ tab | capitalizar}}
+        </button>
+
+        <!-- 
+            SE UTILIZA EL component QUE ES PROPORCIONADO POR VUE, Y DENTRO DE ESTE SE UTILIZA LA DIRECTIVA v-bind:is="componenteDinamico" QUE ME PERMITE INDICAR QUE COMPONENTE QUIERO MOSTRAR, EN ESTE CASO UTILIZO UN METODO PARA SABER QUE COMPONENTE QUIERO MOSTRAR
+         -->
+        <component :is="tareaSeleccionada" :tareas="tareas"></component>
+
+        <!-- <tareas-todas 
+            :tareas="tareas">
+        </tareas-todas>
+
+        <tareas-urgentes 
+            :tareas="tareas">
+        </tareas-urgentes>
+
+        <tareas-completadas
+            :tareas="tareas">
+        </tareas-completadas> -->
+
+    </div>
+
      <!-- Vue js -->
      <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
@@ -305,6 +342,42 @@
         
         </div>
     
+    </script>
+
+    <!-- 
+        TEMPLATE PARA LAS TAREAS DE LOS COMPONENTES DINAMICOS   
+     -->
+    <script type="text/x-template" id="tareas-todas">
+        <div>
+            <h3>Todas las tareas</h3>
+            <ul>
+                <li v-for="tarea in tareas">
+                    {{tarea.titulo}} - Prioridad: {{tarea.prioridad}} - Estado: {{tarea.completado}}
+                </li>
+            </ul>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="tareas-urgentes">
+        <div>
+            <h3>Tareas Urgentes</h3>
+            <ul>
+                <li v-for="tarea in tareasUrgentesAMostrar">
+                    {{tarea.titulo}} - Prioridad: {{tarea.prioridad}} - Estado: {{tarea.completado}}
+                </li>
+            </ul>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="tareas-completadas">
+        <div>
+            <h3>Tareas Completadas</h3>
+            <ul>
+                <li v-for="tarea in tareasCompletadasAMostrar">
+                    {{tarea.titulo}} - Prioridad: {{tarea.prioridad}} - Estado: {{tarea.completado}}
+                </li>
+            </ul>
+        </div>
     </script>
 
      <script src="script.js"></script>

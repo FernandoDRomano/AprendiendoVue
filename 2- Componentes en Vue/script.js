@@ -302,3 +302,90 @@ new Vue({
         inputBase
     }
 });
+
+/* 
+    OCTAVO COMPONENTE CON VUE: COMPONENTE DINAMICOS
+*/
+
+const tareasTodas = {
+    props: ['tareas'],
+    template: '#tareas-todas',
+}
+
+
+const tareasUrgentes = {
+    props: ['tareas'],
+    template: '#tareas-urgentes',
+    computed: {
+        tareasUrgentesAMostrar(){
+            return this.tareas.sort((a, b) => b.prioridad - a.prioridad)
+        }
+    },
+}
+
+const tareasCompletadas = {
+    props: ['tareas'],
+    template: '#tareas-completadas',
+    computed: {
+        tareasCompletadasAMostrar(){
+            return this.tareas.filter(tarea => tarea.completado === true)
+        }
+    },
+}
+
+new Vue({
+    el: '#app8',
+    data: {
+        actual: ['todas'],
+        tabs: ['todas', 'urgentes', 'completadas'],
+        tareas: [
+            {
+                titulo: 'Preparar la serie de Nuxt',
+                prioridad: 6,
+                completado: false,
+            },
+            {
+                titulo: 'Producir la serie de Vue-cli',
+                prioridad: 7,
+                completado: false,
+            },
+            {
+                titulo: 'Finalizar la serie de Componentes',
+                prioridad: 8,
+                completado: false,
+            },
+            {
+                titulo: 'Desarrollar la nueva Web de Escuela Vue',
+                prioridad: 9,
+                completado: false,
+            },
+            {
+                titulo: 'Finalizar la serie Vue Esencial',
+                prioridad: 7,
+                completado: true,
+            },
+        ]
+    },
+    computed: {
+        /* UTILIZO ESTA PROPIEDAD COMPUTADA PARA CONFORMAR EL NOMBRE DEL COMPONENTE DE MANERA DINAMICA */
+        tareaSeleccionada(){
+            return `tareas-${this.actual}`
+        }
+    },
+    methods: {
+        /* UTILIZO ESTE METODOO PARA ACTUALIZAR EL VALOR DEL COMPONENTE A MOSTRAR MEDIANTE EL CLICK EN EL BOTON */
+        cambiarComponente(tab){
+            this.actual = tab;
+        }
+    },
+    filters: {
+        capitalizar(contenido){
+            return contenido.substring(0,1).toUpperCase() + contenido.substring(1, contenido.length)
+        }
+    },
+    components: {
+        tareasTodas,
+        tareasUrgentes,
+        tareasCompletadas
+    }
+});
