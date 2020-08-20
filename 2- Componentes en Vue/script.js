@@ -74,7 +74,7 @@ const destino = {
 const btn = {
     props: ['color', 'enlace', 'anchorText'],
     template: `
-        <a class="btn" :style=" '            background-color:' + color" :href="enlace"><destino></destino></a>
+        <a class="btn" :style=" 'background-color:' + color" :href="enlace"><destino></destino></a>
     `,
     /* 
         PARA UTILIZAR UN COMPONENTE LOCAL DENTRO DE OTRO COMPONENTE, DEBO USAR LA PROPIEDAD components E INDICAR QUE COMPONENTE SE VA A UTILIZAR
@@ -92,4 +92,213 @@ new Vue({
         destino,
     }
 
+});
+
+/* 
+    CUARTA COMPONENTE CON VUE: PLANTILLA DE COMPONENTES
+*/
+
+
+const pizza = {
+    /* 
+        EL TEMPLATE AHORA LE ASIGNO EL SCRIPT DE TEMPLATE 
+    */
+    template: '#pizza-template',
+    props: ['nombre', 'imagen', 'cantidad'],
+    methods: {
+        /* 
+            CON EL METODO $emit ME PUEDO COMUNICAR DESDE ABAJO HACIA ARRIBA 
+            (DEL COMPONENTE HIJO AL COMPONENTE PADRE),
+            ES DECIR HACIENDO UNA PROPAGACIÓN DEL EVENTO.
+            ESTE METODO $emit() RECIBE COMO PARAMETRO EN EVENTO PERSONALIZADO, 
+            EN ESTE CASO this.$emit('mas') PARA INDICAR QUE SE SUMA LAS PIZZAS
+            Y this.$emit('menos'). 
+            LUEGO SE DEBE CAPTURAR ESTE EVENTO EN EL COMPONENTE PADRE A TRAVEZ DE EVENTO
+            PERSONALIZADO QUE SE PASA Y SE INDICA LA ACCIÓN A REALIZAR 
+
+            <pizza 
+            v-for="pizza in pizzas" 
+            ...
+            ...
+            
+            CAPTURANDO EL EVENTO EN EL COMPONENTE PADRE
+            v-on:mas="pizza.cantidad++"
+            v-on:menos="pizza.cantidad--"
+            ...
+            ...
+            ></pizza>
+        */
+        masPizza() {
+            //this.cantidad++;
+            this.$emit('mas');
+        },
+        menosPizza() {
+            //this.cantidad > 0 && this.cantidad--;
+            if(this.cantidad > 0){
+                this.$emit('menos');
+            }
+        }
+    }
+}
+
+new Vue({
+    el: "#app4",
+    data: {
+        totalPizzas: 0,
+        pizzas: [
+            { 
+                nombre: "Pizza de carne", 
+                imagen: "https://cocina-casera.com/wp-content/uploads/2011/12/pizaa-carne-receta.jpg", 
+                cantidad: 0 
+            },
+            { 
+                nombre: "Mini Pizza", 
+                imagen: "https://i.ytimg.com/vi/4wg09Xms_wo/sddefault.jpg", 
+                cantidad: 0 
+            },
+            { 
+                nombre: "Pizza Pepperoni", 
+                imagen: "https://placeralplato.com/files/2016/01/Pizza-con-pepperoni-640x480.jpg", 
+                cantidad: 0 
+            },
+        ]
+    },
+    computed: {
+        calcularTotalDePizzas(){
+            this.totalPizzas = 0;
+            this.pizzas.forEach( pizza => {
+                this.totalPizzas += pizza.cantidad;
+            });
+
+            return this.totalPizzas;
+        }
+    },
+    components:{
+        pizza
+    }
+
+});
+
+/* 
+    QUINTO COMPONENTE CON VUE: COMPONENTE DENTRO DE OTRO COMPONENTE
+*/
+
+const usuario = {
+    props: ['info'],
+    template: '#usuario-template',
+    methods: {
+        usuarioClickeado(){
+            this.$emit('seleccion', this.info.username)
+        }
+    }
+}
+
+const usuarios = {
+    props: ['listado', 'moverA'],
+    template: '#usuarios-template',
+    components: {
+        usuario
+    },
+    methods:{
+        cambiar(username){
+            console.log("el valor seleccionado es: " + username + " mover a " + this.moverA)
+
+            let indice = this.listado.findIndex(elemento => {
+                return elemento.username === username;
+            })
+            
+            if(indice > -1){
+                this.$root[this.moverA].unshift(this.listado.splice(indice, 1)[0])
+            }
+        }
+    }
+   
+}
+
+
+new Vue({
+    el: '#app5',
+    created() {
+        fetch(this.url)
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                this.usuariosDisponibles = datos.results.map(usuario => {
+                    return {
+                        nombreCompleto: usuario.name.title + ', ' + usuario.name.first + ' ' + usuario.name.last,
+                        username: usuario.login.username,
+                        imagen: usuario.picture.large,
+                        email: usuario.email
+                    }
+                })
+            })
+    },
+    data: {
+        url: 'https://randomuser.me/api/?results=15',
+        usuariosDisponibles: [],
+        usuariosSeleccionados: [],
+    },
+    /* LA INSTANCIA PRINCIPAL UTILIZA AL PRIMER COMPONENTE USUARIOS, Y ESTE UTILIZARA
+    A SU VEZ EL COMPONENTE USUARIO */
+    components: {
+        usuarios
+    }
+
+});
+
+/* 
+    SEXTO COMPONENTE CON VUE: DISTRIBUCIÓN DE COMPONENTES CON SLOTS
+*/
+
+const articuloBaseTemplate = {
+    template: '#articulo-base-template',
+    props: ['contenido']
+}
+
+new Vue({
+    el: '#app6',
+    data: {
+        contenido: {
+            titulo: "Este es un titulo desde data de la instancia principal",
+            footer: "Este es un pie de página desde data"
+        }
+    },
+    components: {
+        articuloBaseTemplate
+    }
+})
+
+/* 
+    SEPTIMO COMPONENTE CON VUE: v-model EN COMPONENTES
+*/
+
+const inputBase = {
+    props: ['value'],
+    template: `
+        <div style="margin-bottom: 20px;">
+            <label style="display: block;" :for="id">
+                <slot></slot>
+            </label>
+            <input
+                v-bind:value="value"
+                v-on:input="$emit('input', $event.target.value)"
+                type="text" :id="id" :name="id">
+        </div>
+       `,
+    data() {
+        return {
+            id: `input-${Math.floor(Math.random() * 10) + 1}`
+        }
+    }
+}
+
+new Vue({
+    el: '#app7',
+    data: {
+        nombre: '',
+        apellido: '',
+        busqueda: ''
+    },
+    components: {
+        inputBase
+    }
 });

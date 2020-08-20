@@ -18,6 +18,68 @@
             font-size: 1.2rem;
             text-align: center;
         }
+
+        .pizza {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            font-family: sans-serif;
+            border: 1px solid gray;
+            border-radius: 25px;
+            box-sizing: border-box;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pizza__nombre {
+            flex-basis: 50%;
+            margin: 0 0 20px 0;
+        }
+
+        .pizza__imagen {
+            flex-basis: 100%;
+            align-self: center;
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        .listadoDeUsuarios{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .disponibles,
+        .seleccionados{
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .usuario{
+            width: 50%;
+            padding: 1rem;
+            margin: 1rem auto;
+            border: 1px solid black;
+            border-radius: 1rem;
+            cursor: pointer;
+        }
+
+        .container header{
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .container article{
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        .container footer{
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -44,8 +106,207 @@
 
     </div>
 
+    <div id="app4">
+
+        <h2>Cuarto Componente con Vue: Plantilla de Componentes</h2>
+
+        <!-- <article v-for="(pizza, $index) in pizzas" class="pizza">
+            <h2 class="pizza__nombre">{{ pizza.nombre }}</h2>
+            <section class="pizza__cantidad">
+                <button @click="masPizza($index)">+</button>
+                {{ pizza.cantidad }}
+                <button @click="menosPizza($index)">-</button>
+            </section>
+            <img :src="pizza.imagen" alt="Pizza" class="pizza__imagen">
+        </article> -->
+
+        <h3>Total de Pizzas seleccionadas: {{ calcularTotalDePizzas }}</h3>
+        
+        <pizza 
+            v-for="pizza in pizzas" 
+            v-on:mas="pizza.cantidad++"
+            v-on:menos="pizza.cantidad--"
+            :nombre="pizza.nombre" 
+            :imagen="pizza.imagen" 
+            :cantidad="pizza.cantidad">
+        </pizza>
+
+    </div>
+
+    <div id="app5">
+        <h2>Quinto Componente con Vue: Componentes dentro de Componentes</h2>
+
+        <section class="listadoDeUsuarios">
+            <div class="disponibles">
+                <h3>Usuarios Disponibles: {{ usuariosDisponibles.length }}</h3>
+                <usuarios 
+                    :listado="usuariosDisponibles"
+                    mover-a="usuariosSeleccionados">
+                </usuarios>    
+            </div>
+            <div class="seleccionados">
+                <h3>Usuarios Seleccionados: {{ usuariosSeleccionados.length }}</h3>
+                <usuarios 
+                    :listado="usuariosSeleccionados"
+                    mover-a="usuariosDisponibles">
+                </usuarios> 
+            </div>
+        </section>
+    </div>
+
+    <div id="app6">
+        <h2>Sexto Componente con Vue: Slots</h2>
+
+        <!-- <div class="container">
+            <header>
+                <h2>Este es el Header</h2>
+            </header>
+            <article>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed minima distinctio explicabo aliquam, ratione aut totam impedit alias earum perferendis?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus architecto consequatur unde. Aliquam, voluptas.</p>
+            </article>
+            <aside>
+                <p>Listas</p>
+                <ul>
+                    <li><a href="#">Enlace 1</a></li>
+                    <li><a href="#">Enlace 2</a></li>
+                    <li><a href="#">Enlace 3</a></li>
+                </ul>
+            </aside>
+            <footer>
+                <p>Todos los derechos reservados 2020</p>
+            </footer>
+        </div> -->
+
+        <articulo-base-template :contenido="contenido">
+            
+            <!-- 
+                COLOCO EL CONTENIDO EN EL SLOT RESPECTIVO, MEDIANTE EL #nameDelSlot
+             -->
+             <template #cabecera>
+                <h1>{{ contenido.titulo }}</h1>
+             </template>
+
+             <template #contenido>
+                <h4>Contenido que cambia especificamente</h4>
+             </template>
+
+             <template #pie>
+                <h2>{{ contenido.footer }}</h2>
+             </template>
+
+        </articulo-base-template>
+
+    </div>
+
+    <div id="app7">
+        <h2>Septimo Componente con Vue: v-model en Componentes</h2>
+
+        <input-base v-model="nombre">Nombre</input-base>
+        <input-base v-model="apellido">Apellido</input-base>
+        <input-base v-model="busqueda">Busqueda</input-base>
+        
+    </div>
+
      <!-- Vue js -->
      <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!-- 
+         TEMPLATE DE SCRIPT DE LA PIZZA 
+         IMPORTANTE DEFINIR EL id Y type="text/x-template"
+    -->
+     <script type="text/x-template" id="pizza-template">
+        <article class="pizza">
+                <h2 class="pizza__nombre"> {{ nombre }} </h2>
+                <section class="pizza__cantidad">
+                    <button @click="masPizza">+</button>
+                    {{ cantidad }}
+                    <button @click="menosPizza">-</button>
+                </section>
+                <img :src="imagen" alt="Pizza" class="pizza__imagen">
+        </article>
+    </script>
+
+    <!-- 
+        TEMPLATE PARA CADA USUARIO INDIVIDUAL
+    -->
+    <script type="text/x-template" id="usuario-template">
+        <article class="usuario" v-on:click="usuarioClickeado">
+            <img :src="info.imagen">
+            <h4>{{ info.nombreCompleto }}</h4>
+            <p>{{ info.email }}</p>
+            <p>{{ info.username }}</p>
+        </article>
+    </script>
+
+    <!-- 
+        TEMPLATE PARA LOS USUARIOS
+    -->
+    <script type="text/x-template" id="usuarios-template">
+        <div class="listado">
+            <usuario 
+                v-for="usuario in listado" 
+                :info="usuario"
+                v-on:seleccion="cambiar">
+            </usuario>
+        </div>
+    </script>
+
+    <!-- 
+        TEMPLATE PARA EL TEMA DE SLOTS
+    -->
+
+    <script type="text/x-template" id="articulo-base-template">
+        
+        <div class="container">
+            
+            <header>
+                <!-- LOS slot PUEDEN RECIBIR UN name PARA DIFERENCIARLOS -->
+                <slot name="cabecera">
+                    <!-- 
+                        LOS SLOT PUEDEN TENER CONTENIDO POR DEFECTO, ASI SI NO SON 
+                        INSTANCIADOS APARECERA ESTE CONTENIDO
+                     -->
+                    <h2>Bienvenido a mi Página Web</h2>
+                    <p>Lorem, ipsum dolor.</p>
+                </slot>
+            </header>
+            
+            <article>
+                <slot name="contenido">
+                    <h3>ESTE ES UN CONTENIDO POR DEFECTO</h3>
+                </slot>
+            </article>
+            
+            <aside>
+                <slot name="lateral">
+                    <p>Contenido por defecto</p>
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="#">Enlace 1</a>
+                            </li>
+                            <li>
+                                <a href="#">otro enlace</a>
+                            </li>
+                            <li>
+                                <a href="#">Ultimo enlace</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </slot>
+            </aside>
+            
+            <footer>
+                <slot name="pie">
+                    <p>Todos los derechos reservados</p>
+                </slot>
+            </footer>
+        
+        </div>
+    
+    </script>
+
      <script src="script.js"></script>
 </body>
 </html>
