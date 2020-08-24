@@ -26,14 +26,22 @@
 
 <script>
     import Tarea from '@/components/Tarea.vue'
+    import TareasService from '../services/TareasService.js'
      
     export default {
         name: 'Tareas',
         created() {
-            fetch(this.url)
+
+            /* fetch(this.url)
                 .then(respuesta => respuesta.json())
                 .then(datos => this.tareas = datos)
-                .catch(error => console.error(error))
+                .catch(error => console.error(error)) */
+
+            /* REALIZAMOS LA PETICIÓN USANDO EL SERVICE DE TAREAS */
+
+            TareasService.get()
+                .then(tareas => this.tareas = tareas.data)
+
         },
         data() {
             return {

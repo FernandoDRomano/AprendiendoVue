@@ -5,6 +5,57 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+/* 
+  PARA USAR UN SINGLE-FILE-COMPONENT EN TODA NUESTRA APP LO PODEMOS IMPORTAR COMO UN COMPONENTE GLOBAL, ANTES DE LA INSTANCIA PRINCIPAL DE VUE
+
+  import BaseForm from '@/components/BaseForm.vue'
+  Vue.component('BaseForm', BaseForm);
+
+*/
+
+/* 
+  OTRA FORMA DE USAR LOS COMPONENTES BASES DE MANERA GLOBAL ES USANDO lodash Y LA CONFIGURACIÓN PREDISPUESTA EN LA PÁGINA DE VUE-CLI
+*/
+
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+
+const requireComponent = require.context(
+  // The relative path of the components folder
+  './components',
+  // Whether or not to look in subfolders
+  false,
+  // The regular expression used to match base component filenames
+  /Base[A-Z]\w+\.(vue|js)$/
+)
+
+requireComponent.keys().forEach(fileName => {
+  // Get component config
+  const componentConfig = requireComponent(fileName)
+
+  // Get PascalCase name of component
+  const componentName = upperFirst(
+    camelCase(
+      // Gets the file name regardless of folder depth
+      fileName
+        .split('/')
+        .pop()
+        .replace(/\.\w+$/, '')
+    )
+  )
+
+
+  // Register component globally
+  Vue.component(
+    componentName,
+    // Look for the component options on `.default`, which will
+    // exist if the component was exported with `export default`,
+    // otherwise fall back to module's root.
+    componentConfig.default || componentConfig
+  )
+})
+
+
 new Vue({
   router,
   store,

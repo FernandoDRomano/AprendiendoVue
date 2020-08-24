@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <Navegacion/>
+    <!-- <BaseForm/> -->
     <router-view/>
   </div>
 </template>
 
 <script>
 import Navegacion from '@/components/Navegacion.vue'
-
+/* import BaseForm from '@/components/BaseForm.vue'
+ */
 export default {
   components: {
-    Navegacion
+    Navegacion,
+    /* BaseForm */
   }
 }
 </script>
