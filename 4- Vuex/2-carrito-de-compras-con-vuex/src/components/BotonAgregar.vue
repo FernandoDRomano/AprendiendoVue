@@ -1,10 +1,17 @@
 <template>
-    <a href="#" class="btn btn-agregar">Agregar</a>
+    <a @click.prevent="agregarProductoAlCarrito(producto)" href="#" class="btn btn-agregar">Agregar</a>
 </template>
 
 <script>
     export default {
-        name: 'BotonAgregar'
+        name: 'BotonAgregar',
+        props: ['producto'],
+        methods:{
+            agregarProductoAlCarrito(producto){
+                /* LLAMO A UNA action DEL VUEX PARA AGREGAR EL PRODUCTO AL CARRITO */
+                this.$store.dispatch('agregarProductoAlCarrito', producto);
+            }
+        }
     }
 </script>
 

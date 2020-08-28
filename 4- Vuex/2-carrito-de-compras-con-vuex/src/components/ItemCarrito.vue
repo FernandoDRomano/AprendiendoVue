@@ -1,24 +1,35 @@
 <template>
     <div class="item">
         <div class="imagen">
-            <img src="https://picsum.photos/id/160/640/480" alt="logo" width="100%">
+            <img :src="item.imagen" :alt="item.titulo" width="100%">
         </div>
         <div class="contenido">
             <div class="cabecera">
-                <h4 class="titulo">Producto X</h4>
-                <a href="" class="btnCerrar">X</a>
+                <h4 class="titulo">{{ item.titulo }}</h4>
+                <a href="" v-on:click.prevent="eliminarProductoDelCarrito(item)" class="btnCerrar">X</a>
             </div>
             <div class="footer">
-                <p class="cantidad">Cantidad</p>
-                <p class="precio">$ XXX</p>
+                <p class="cantidad">Cantidad: {{ item.cantidad }}</p>
+                <p class="precio">$ {{ item.precio }} </p>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
+
     export default {
-        name: 'ItemCarrito'
+        name: 'ItemCarrito',
+        props: ['item'],
+        methods: {
+            ...mapActions({
+                eliminarProductoDelCarrito: 'eliminarProductoDelCarrito'
+            })
+            /* eliminarProductoDelCarrito(item){
+                this.$store.dispatch('eliminarProductoDelCarrito', item)
+            } */
+        }
     }
 </script>
 
