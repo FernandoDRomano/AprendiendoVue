@@ -6,7 +6,25 @@
       <section v-for="(usuario, $index) in usuarios" :key="usuario.login.uuid" class="users__item">
         
         <!-- CREO LAS RUTAS DE MANERA DINAMICA PARA MOSTRAR LA INFORMACIÓN DE CADA USUARIO -->
-        <RouterLink :to="`/usuario/${usuario.login.username}`">
+
+        <!-- TRABAJANDO CON EL path DE LAS RUTAS
+        
+          <RouterLink :to="`/usuario/${usuario.login.username}`">
+
+            <div class="fade">
+              {{ fullName($index) }}
+            </div>
+            <img
+              class="user__thumbnail"
+              :src="usuario.picture.medium"
+              :alt="usuario.name.first"
+            />
+
+          </RouterLink>
+         -->
+
+         <!-- TRABAJANDO CON LA PROPIEDAD name DE LA RUTA -->
+        <RouterLink :to="{name: 'Usuario', params: {username: usuario.login.username}}">
 
           <div class="fade">
             {{ fullName($index) }}

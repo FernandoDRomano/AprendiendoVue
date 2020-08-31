@@ -13,10 +13,27 @@
         AL ACTIVAR LA OPCIÓN DE props: true EN ESTA RUTA ANIDADA, ENTONCES PUEDO 
         PASARLE VARIOS PARAMETROS EN FORMA DE UN OBJETO
     -->
+
+      <!-- TRABAJANDO CON EL path
+
+          <RouterLink 
+            :to="{
+                  //PASO EL path A LA RUTA
+                  path: `/usuario/${this.username}/info`, 
+                  //PASO LOS PARAMETROS
+                  params: {username: this.username}
+                  }" 
+            class="user__more">
+            Mostras más Información del usuario ....
+          </RouterLink>
+    
+     -->
+
+     <!-- TRABAJANDO CON LA PROPIEDAD name -->
     <RouterLink 
       :to="{
-            //PASO EL path A LA RUTA
-            path: `/usuario/${this.username}/info`, 
+            //PASO EL name DE ESTA RUTA EN VEZ DEL path
+            name: 'UsuarioInfo', 
             //PASO LOS PARAMETROS
             params: {username: this.username}
             }" 

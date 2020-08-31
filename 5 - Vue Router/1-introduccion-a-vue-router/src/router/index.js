@@ -41,10 +41,9 @@ Vue.use(VueRouter)
       /* POR CADA RUTA ANIDADA RECIBE UN OBJETO */
       {
         /*
-          PONGO EL path COMPLETO DE LA RUTA ANIDADA, DEBIDO A QUE PROBE PONIENDO SOLO path:'/info'
-          Y SI FUNCIONA, PERO NO ME CONSERVA EL COMPONENTE PADRE QUE ES viewUsuario
+          EL path DE ESTA RUTA ANIDADA QUEDARIA REPRESENTADA DE LA SIGUIENTE FORMA path: '/usuario/:username/info'
         */
-        path: '/usuario/:username/info',
+        path: 'info',
         name: 'UsuarioInfo',
         component: usuarioInfo,
         /* CON props:true INDICAMOS QUE EN EL COMPONENTE QUE SE VA A RENDERIZAR PODEMOS RECIBIR PROPIEDADES */

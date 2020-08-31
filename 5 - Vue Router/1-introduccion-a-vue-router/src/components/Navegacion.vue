@@ -5,9 +5,19 @@
       <!-- 
         CON RouterLink ENLAZAMOS LAS RUTAS QUE ESTAN ALMACENADAS router/index.js PARA RENDERIZAR EL COMPONENTE CORRESPONDIENTE
        -->
-      <RouterLink class="header__nav__link" to="/">Directorio</RouterLink> |
-      <RouterLink class="header__nav__link" to="/legal">Legal</RouterLink> |
-      <RouterLink class="header__nav__link" to="/contacto">Contacto</RouterLink>
+
+       <!-- 
+         TRABAJANDO RUTAS HACIENDO REFERENCIA AL path 
+
+          <RouterLink class="header__nav__link" to="/">Directorio</RouterLink> |
+          <RouterLink class="header__nav__link" to="/legal">Legal</RouterLink> |
+          <RouterLink class="header__nav__link" to="/contacto">Contacto</RouterLink>
+       -->
+
+       <!-- TRABAJANDO CON RUTAS USANDO LA PROPIEDAD name EN  -->
+      <RouterLink class="header__nav__link" :to="{name: 'Home'}">Directorio</RouterLink> |
+      <RouterLink class="header__nav__link" :to="{name: 'Legal'}">Legal</RouterLink> |
+      <RouterLink class="header__nav__link" :to="{name: 'Contacto'}">Contacto</RouterLink>
     </nav>
   </header>
 </template>
