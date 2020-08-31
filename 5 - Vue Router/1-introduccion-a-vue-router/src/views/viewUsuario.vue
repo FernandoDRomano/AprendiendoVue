@@ -6,6 +6,27 @@
       :ismap="usuarioDatos.fullName"
       class="user__picture"
     />
+    <p>{{ usuarioDatos.email }}</p>
+
+    <!-- 
+        CON ESTE RouterLink DEFINO LA RUTA ANIDADA PARA /usuario/:username/info 
+        AL ACTIVAR LA OPCIÓN DE props: true EN ESTA RUTA ANIDADA, ENTONCES PUEDO 
+        PASARLE VARIOS PARAMETROS EN FORMA DE UN OBJETO
+    -->
+    <RouterLink 
+      :to="{
+            //PASO EL path A LA RUTA
+            path: `/usuario/${this.username}/info`, 
+            //PASO LOS PARAMETROS
+            params: {username: this.username}
+            }" 
+      class="user__more">
+      Mostras más Información del usuario ....
+    </RouterLink>
+
+    <!-- RouterView COMPONENTE QUE RENDERIZA LA INFORMACIÓN DEL USUARIO -->
+    <RouterView></RouterView>
+
   </section>
 </template>
 
@@ -13,7 +34,7 @@
 import {mapState} from 'vuex'
 
 export default {
-  name: "Usuario",
+  name: "viewUsuario",
   data() {
     return {
       /* LA PROPIEDAD username SERA IGUAL AL VALOR DE LA RUTA DINAMICA DE CADA USUARIO, PARA ESTO OBTENGO EL VALOR
@@ -35,7 +56,8 @@ export default {
     usuarioDatos() {
       return {
         fullName: `${this.usuario.name.first} ${this.usuario.name.last}`,
-        thumbnail: this.usuario.picture.large
+        thumbnail: this.usuario.picture.large,
+        email: this.usuario.email
       };
     }
   }
@@ -44,29 +66,21 @@ export default {
 
 <style scoped>
 .user {
-  position: fixed;
-  width: 30rem;
-  left: calc(50vw - 15rem);
-  top: 20vmin;
-  z-index: 1;
-  background-color: lightgray;
-  border: 3px solid gray;
-  padding: 1rem;
+  padding: 7rem 0.5rem;
   text-align: center;
-  box-shadow: 2px 1px 20px black;
 }
-.user__name {
-  margin-top: 0;
+
+.user__name{
+  padding: .5rem 0;
 }
+
 .user__picture {
   border: 1px solid;
 }
-.close {
-  position: absolute;
-  right: 0.3rem;
-  top: 0.3rem;
-  text-decoration: none;
+
+.user__more {
+  display: block;
+  margin-top: 1rem;
   color: black;
-  font-weight: bold;
 }
 </style>

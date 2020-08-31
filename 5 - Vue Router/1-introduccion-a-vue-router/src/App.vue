@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import Header from '@/components/Navegacion.vue'
+  import Navegacion from '@/components/Navegacion.vue'
   export default {
       name: 'AppVuePrincipal',
       components: {

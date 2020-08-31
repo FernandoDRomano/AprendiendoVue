@@ -1,22 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import viewUsuarios from '../views/viewUsuariosLista.vue'
+import viewUsuariosLista from '../views/viewUsuariosLista.vue'
 import viewLegal from '@/views/viewLegal.vue'
 import viewContacto from '@/views/viewContacto.vue'
-import usuario from '@/components/Usuario.vue'
+import viewUsuario from '@/views/viewUsuario.vue'
+import usuarioInfo from '@/components/UsuarioInfo.vue'
  
 
 Vue.use(VueRouter)
 
   const routes = [
   /* 
-    RUTA ESTATICA, CUANDO SE ENTRE A LA RUTA / SE VISUALIZA EL COMPONENTE viewUsuarios 
+    RUTA ESTATICA, CUANDO SE ENTRE A LA RUTA / SE VISUALIZA EL COMPONENTE viewUsuariosLista 
     QUE SE ENCARGAR DE RENDERIZAR EL RouterView
   */
   {
     path: '/',
     name: 'Home',
-    component: viewUsuarios
+    component: viewUsuariosLista
   },
   {
     path: '/legal',
@@ -34,7 +35,22 @@ Vue.use(VueRouter)
   {
     path: '/usuario/:username',
     name: 'Usuario',
-    component: usuario
+    component: viewUsuario,
+    /* RUTA ANIDADAS */
+    children: [
+      /* POR CADA RUTA ANIDADA RECIBE UN OBJETO */
+      {
+        /*
+          PONGO EL path COMPLETO DE LA RUTA ANIDADA, DEBIDO A QUE PROBE PONIENDO SOLO path:'/info'
+          Y SI FUNCIONA, PERO NO ME CONSERVA EL COMPONENTE PADRE QUE ES viewUsuario
+        */
+        path: '/usuario/:username/info',
+        name: 'UsuarioInfo',
+        component: usuarioInfo,
+        /* CON props:true INDICAMOS QUE EN EL COMPONENTE QUE SE VA A RENDERIZAR PODEMOS RECIBIR PROPIEDADES */
+        props: true
+      }
+    ]
   }
 
   
