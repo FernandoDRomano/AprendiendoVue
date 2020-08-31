@@ -5,11 +5,17 @@ import viewLegal from '@/views/viewLegal.vue'
 import viewContacto from '@/views/viewContacto.vue'
 import viewUsuario from '@/views/viewUsuario.vue'
 import usuarioInfo from '@/components/UsuarioInfo.vue'
+import viewError404 from '@/views/viewError404.vue'
  
 
 Vue.use(VueRouter)
 
   const routes = [
+  {
+    path: '*',
+    name: 'Error404',
+    component: viewError404
+  },
   /* 
     RUTA ESTATICA, CUANDO SE ENTRE A LA RUTA / SE VISUALIZA EL COMPONENTE viewUsuariosLista 
     QUE SE ENCARGAR DE RENDERIZAR EL RouterView

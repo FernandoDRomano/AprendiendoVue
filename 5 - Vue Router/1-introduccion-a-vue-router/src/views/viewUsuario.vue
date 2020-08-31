@@ -41,6 +41,21 @@
       Mostras más Información del usuario ....
     </RouterLink>
 
+    <section class="user__other">
+
+      <a 
+         v-show="usuarioAnterior" 
+         @click.prevent="cargarUsuarioAnterior" 
+         href="#">Usuario Anterior
+      </a> |
+      
+      <a 
+         v-show="usuarioSiguiente" 
+         @click.prevent="cargarUsuarioSiguiente" 
+         href="#">Usuario Siguiente
+      </a>
+    
+    </section>
     <!-- RouterView COMPONENTE QUE RENDERIZA LA INFORMACIÓN DEL USUARIO -->
     <RouterView></RouterView>
 
@@ -52,6 +67,14 @@ import {mapState} from 'vuex'
 
 export default {
   name: "viewUsuario",
+  /* 
+    COMO QUEREMOS ACTUALIZAR LA RUTA DEBEMOS USAR EL METODO beforeRouteUpdate(to, from, next){} DONDE DENTRO DE LA FUNCIÓN
+    LE INDICAMOS CUAL ES EL NUEVO VALOR DEL username QUE VIENE DESDE LA RUTA DESTINO A LA QUE ME DIRIJO
+  */
+  beforeRouteUpdate (to, from, next) {
+    this.username = to.params.username;
+    next();
+  },
   data() {
     return {
       /* LA PROPIEDAD username SERA IGUAL AL VALOR DE LA RUTA DINAMICA DE CADA USUARIO, PARA ESTO OBTENGO EL VALOR
@@ -59,6 +82,34 @@ export default {
       PERO PODRIA SER OTRA VARIABLE */
       username: this.$route.params.username
     };
+  },
+  methods:{
+    /* 
+      CARGO EL USUARIO SIGUIENTE MEDIANTE UNA NAVEGACIÓN PROGRAMATICA, ES DECIR QUE NO SE USA UN RouterLink
+      PARA ENLAZAR LA RUTA, SINO QUE USO EL METODO push DEL ROUTER -> this.$router.push({}), COMO PARAMETRO LE DEBO PASAR
+      EL path O name DE LA RUTA, Y LOS PARAMETROS SI ES QUE LOS NECESITA.
+
+      EN ESTE CASO LA RUTA TIENE COMO path: /usuario/:username ASI QUE ESTA ESPERANDO QUE LE PASEN COMO PARAMETRO EL username
+
+      this.$router.push({
+        name: 'Usuario',
+        params: { username: this.usuarioSiguiente.login.username }
+      })
+
+    */
+    cargarUsuarioSiguiente(){
+      this.$router.push({
+        name: 'Usuario',
+        params: { username: this.usuarioSiguiente.login.username }
+      })
+    },
+
+    cargarUsuarioAnterior(){
+      this.$router.push({
+        name: 'Usuario',
+        params: { username: this.usuarioAnterior.login.username }
+      })
+    }
   },
   computed: {
     /* TRAIGO LOS DATOS DEL STATE DE VUEX */
@@ -76,7 +127,20 @@ export default {
         thumbnail: this.usuario.picture.large,
         email: this.usuario.email
       };
+    },
+    /* OBTENGO EL INDICE DEL USUARIO ACTUAL */
+    usuarioIndex(){
+      return this.usuarios.findIndex(usuario => usuario.login.username === this.username);
+    },
+    /* OBTENGO EL USUARIO SIGUIENTE A PARTIR DEL INDICE DEL USUARIO ACTUAL */
+    usuarioSiguiente(){
+      return this.usuarios[this.usuarioIndex + 1];
+    },
+    /* OBTENGO EL USUARIO ANTERIOR A PARTIR DEL INDICE DEL USUARIO ACTUAL */
+    usuarioAnterior(){
+      return this.usuarios[this.usuarioIndex - 1];
     }
+
   }
 };
 </script>
