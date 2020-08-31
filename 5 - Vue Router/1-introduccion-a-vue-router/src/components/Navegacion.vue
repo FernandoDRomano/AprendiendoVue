@@ -2,16 +2,19 @@
   <header class="header">
     <h1 class="header__title">Directorio de Usuarios</h1>
     <nav class="header__nav">
-      <router-link class="header__nav__link" to="/">Directorio</router-link> |
-      <router-link class="header__nav__link" to="/legal">Legal</router-link> |
-      <router-link class="header__nav__link" to="/contacto">Contacto</router-link>
+      <!-- 
+        CON RouterLink ENLAZAMOS LAS RUTAS QUE ESTAN ALMACENADAS router/index.js PARA RENDERIZAR EL COMPONENTE CORRESPONDIENTE
+       -->
+      <RouterLink class="header__nav__link" to="/">Directorio</RouterLink> |
+      <RouterLink class="header__nav__link" to="/legal">Legal</RouterLink> |
+      <RouterLink class="header__nav__link" to="/contacto">Contacto</RouterLink>
     </nav>
   </header>
 </template>
 
 <script>
 export default {
-  name: "Header",
+  name: "Navegacion",
 };
 </script>
 

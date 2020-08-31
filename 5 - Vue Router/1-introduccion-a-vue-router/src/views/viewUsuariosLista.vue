@@ -1,65 +1,49 @@
 <template>
   <main>
-    <Usuario
-      v-if="selectedUser"
-      @closeUser="selectedUser = null"
-      :user="selectedUser"
-    />
+
     <article class="users">
-      <section
-        v-for="(user, $index) in users"
-        :key="user.login.uuid"
-        @click="showUser(user)"
-        class="users__item"
-      >
-        <div class="fade">
-          {{ fullName($index) }}
-        </div>
-        <img
-          class="user__thumbnail"
-          :src="user.picture.medium"
-          :alt="user.name.first"
-        />
+      <!-- RENDERIZO LOS USUARIOS TRAIDOS DESDE VUEX -->
+      <section v-for="(usuario, $index) in usuarios" :key="usuario.login.uuid" class="users__item">
+        
+        <!-- CREO LAS RUTAS DE MANERA DINAMICA PARA MOSTRAR LA INFORMACIÓN DE CADA USUARIO -->
+        <RouterLink :to="`/usuario/${usuario.login.username}`">
+
+          <div class="fade">
+            {{ fullName($index) }}
+          </div>
+          <img
+            class="user__thumbnail"
+            :src="usuario.picture.medium"
+            :alt="usuario.name.first"
+          />
+
+        </RouterLink>
+
       </section>
     </article>
+
   </main>
 </template>
 
 <script>
-import Usuario from "@/components/Usuario.vue";
+import { mapState } from 'vuex';
 
 export default {
   name: "viewUsuariosLista",
-  mounted() {
-    this.getUsers();
-  },
-  data() {
-    return {
-      users: [],
-      selectedUser: null
-    };
+
+  computed: {
+    /* CREO UNA PROPIEDAD COMPUTADA PARA ACCEDER A LOS USUARIOS DESDE VUEX */
+    ...mapState(["usuarios"])
   },
   methods: {
-    async getUsers() {
-      try {
-        await fetch("https://randomuser.me/api/?results=100")
-          .then(data => data.json())
-          .then(data => (this.users = data.results));
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    showUser(user) {
-      this.selectedUser = user;
-    },
+    /* COMO EN CADA INSTANCIA DEL USUARIO LE PASO EL INDICE, ENTONCES PUEDO BUSCAR EL USUARIO 
+    EN VUEX Y TRAER TODOS SUS DATOS */
     fullName(index) {
-      const user = this.users[index];
-      return `${user.name.first} ${user.name.last}`;
+      const usuario = this.usuarios[index];
+      return `${usuario.name.first} ${usuario.name.last}`;
     }
   },
-  components: {
-    Usuario
-  }
+
 };
 </script>
 
