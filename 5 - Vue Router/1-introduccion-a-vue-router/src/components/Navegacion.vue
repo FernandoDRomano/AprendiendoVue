@@ -17,14 +17,22 @@
        <!-- TRABAJANDO CON RUTAS USANDO LA PROPIEDAD name EN  -->
       <RouterLink class="header__nav__link" :to="{name: 'Home'}">Directorio</RouterLink> |
       <RouterLink class="header__nav__link" :to="{name: 'Legal'}">Legal</RouterLink> |
-      <RouterLink class="header__nav__link" :to="{name: 'Contacto'}">Contacto</RouterLink>
+      <RouterLink class="header__nav__link" :to="{name: 'Contacto'}">Contacto</RouterLink> |
+      <!-- CON v/if VERIFICO SI EL USUARIO ESTA AUTENTIFICADO O NO PARA MOSTRAR EL ENLACE -->
+      <RouterLink v-if="!auth" class="header__nav__link" :to="{name: 'Login'}"> Login </RouterLink> |
+      <RouterLink v-if="auth" class="header__nav__link" :to="{name: 'Dashboard'}"> Dashboard </RouterLink>
     </nav>
   </header>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: "Navegacion",
+  computed:{
+    ...mapState(['auth'])
+  }
 };
 </script>
 

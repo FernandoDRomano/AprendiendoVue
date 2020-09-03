@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store/index.js'
 /* 
 CAMBIADO POR IMPORTS DINAMICOS 
 
@@ -20,6 +21,20 @@ Vue.use(VueRouter)
     name: 'Error404',
     //component: viewError404
     component: () => import(/* webpackChunkName: "Error404" */ "@/views/viewError404.vue")
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import( /* webpackChunkName: "Login" */ '@/views/viewLogin.vue')
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    /* DEFINO ESTA meta PARA INDICAR QUE LA RUTA REQUIERE DE QUE EL USUARIO ESTE AUTENTICADO PARA INGRESAR */
+    meta: {
+      requiereAuth: true
+    },
+    component: () => import( /* webpackChunkName: "Dashboard" */ '@/views/viewDashboard.vue')
   },
   /* 
     RUTA ESTATICA, CUANDO SE ENTRE A LA RUTA / SE VISUALIZA EL COMPONENTE viewUsuariosLista 
@@ -85,5 +100,29 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+/* PARA DAR PROTECCIÓN DE MANERA GLOBAL A LAS RUTAS */
+router.beforeEach((to, from, next) => {
+  /*  
+    VERIFICO SI LA RUTA HACIA DONDE ME DIRIJO TIENE LA META DE requiereAuth, 
+    ESTA LA DEFINI PARA INDICAR QUE ESTA RUTA NECESITA DE ESTAR AUTENTIFICADO 
+  */
+  if (to.matched.some(record => record.meta.requiereAuth)) {
+    /* SI LA RUTA NECESITA AUTENTIFICACION, ME FIJO EN LA STORE SI EL USUARIO ESTA AUTENTIFICADO */
+    if (store.state.auth) {
+      /* SI EL USUARIO ESTA AUTENTIFICADO LE DOY PERMISO PARA QUE SIGA PARA ADELANTE */
+      next();
+    } else {
+      /* SI EL USUARIO NO ESTA AUTENTIFICADO, NO LE DOY PERMISO DE ACCEDER A LA RUTA Y LO REDIFIJO AL LOGIN */
+      next({ name: "Login" });
+    }
+  /* 
+    EN EL CASO DE QUE LA RUTA NO REQUIERE AUTENTIFICACION, ES DECIR QUE LA META DE requiereAuth NO 
+    SE ENCUENTRE COMO REQUISITO EN LA RUTA, LO DEJO PASAR DIRECTAMENTE A LA RUTA QUE SE DIRIJE
+  */
+  } else {
+    next();
+  }
+});
 
 export default router

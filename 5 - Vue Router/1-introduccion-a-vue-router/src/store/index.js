@@ -13,15 +13,35 @@ const store = new Vuex.Store({
 
   state: {
     usuarios: [],
+    username: null,
+    auth: false
   },
 
   mutations: {
     setUsuarios(state, usuarios){
       state.usuarios = usuarios;
+    },
+
+    setLogin(state, username){
+      state.username = username;
+      state.auth = true;
+    },
+
+    setLogout(state){
+      state.auth = false;
+      state.username = null;
     }
   },
 
   actions: {
+    Login(context, username) {
+      context.commit("setLogin", username);
+    },
+
+    Logout(context) {
+      context.commit("setLogout");
+    },
+
     /* 
       ESTA FUNCIÓN ASINCRONA TIENE POR OBJETIVO BUSCAR LOS DATOS, SI ESTOS NO SE ENCUENTRAN EN EL 
       LOCAL STORAGE LOS TRAIGO DESDE LA API Y LOS ALMACENO EN EL LOCAL STORAGE Y ASI CARGARLO EN EL
