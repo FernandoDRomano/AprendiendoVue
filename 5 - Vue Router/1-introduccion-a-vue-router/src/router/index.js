@@ -22,6 +22,12 @@ Vue.use(VueRouter)
   */
   {
     path: '/',
+    redirect: {
+      name: 'Home'
+    }
+  },
+  {
+    path: '/usuario',
     name: 'Home',
     component: viewUsuariosLista
   },

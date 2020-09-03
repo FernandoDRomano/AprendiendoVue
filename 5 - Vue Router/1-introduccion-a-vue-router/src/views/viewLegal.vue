@@ -91,7 +91,7 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-  padding: 7rem 2rem;
+  padding: 8rem 2rem;
 }
 .content__heading {
   text-align: center;

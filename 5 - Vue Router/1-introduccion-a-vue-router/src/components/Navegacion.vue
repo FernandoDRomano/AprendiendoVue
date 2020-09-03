@@ -28,7 +28,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .header {
   text-align: center;
   padding: 1.5rem 0;
@@ -47,5 +47,16 @@ export default {
 .header__nav__link {
   text-decoration: none;
   color: white;
+  padding: .6rem 0 0 0;
+}
+
+nav{
+  
+  .router-link-active,
+  .router-link-exact-active{
+    color: goldenrod;
+    border-bottom: 1px solid goldenrod;
+  }
+  
 }
 </style>
