@@ -1,0 +1,16 @@
+{
+  "name": "webpack-con-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "author": "Fernando Daniel Romano",
+  "license": "ISC",
+  "devDependencies": {
+    "html-webpack-plugin": "4.4.1",
+    "webpack": "4.44.1",
+    "webpack-cli": "3.3.12"
+  }
+}
