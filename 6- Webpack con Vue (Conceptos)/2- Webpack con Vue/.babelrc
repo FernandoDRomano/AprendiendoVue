@@ -1,0 +1,20 @@
+{
+  /* presets INDICO QUE SERIE DE REGLAS UTILIZARA BABEL PARA PARCHAR A LAS FUNCIONALIDADES QUE NO SE PUEDEN IMPLEMENTAR EN LOS 
+  NAVEGADORES ANTIGUOS */
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        /* modules: false LE INDICO QUE BABEL NO PROCESE LOS MODULOS YA QUE LO REALIZARA WEBPACK */
+        "modules": false,
+        /* targets INDICO LOS NAVEGADORES OBJETIVO, EN ESTE CASO QUE TENGAN UN >0,25% DE USO Y NO ESTEN MUERTOS */
+        "targets": "> 0.25%, not dead"
+      }
+    ]
+  ],
+  /* PLUGINS DE BABEL A UTILIZAR */
+  "plugins": [
+      "@babel/plugin-syntax-dynamic-import", 
+      "@babel/plugin-transform-runtime"
+   ]
+}

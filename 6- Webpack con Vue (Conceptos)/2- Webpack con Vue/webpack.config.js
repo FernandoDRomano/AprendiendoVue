@@ -27,6 +27,14 @@ module.exports = (env, argv) => {
         /* LOADERS */
         module:{
             rules:[
+                /* PARA TRABAJAR CON LOS ARCHIVOS JS CON BABEL */
+                {
+                    test: /\.js$/,
+                    exclude: '/node_modules/',
+                    use: {
+                        loader: 'babel-loader',
+                    }
+                },
                 /* PARA TRABAJAR CON CSS */
                 {
                     test: /\.css$/,
