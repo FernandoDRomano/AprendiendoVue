@@ -8,8 +8,21 @@ module.exports = (env, argv) => {
         entry: './src/js/main.js',
         /* SALIDAS */
         output: {
-            filename: 'bundle.js',
+            filename: '[name].[contentHash].bundle.js',
             path: path.resolve(__dirname, 'dist')
+        },
+        /* PARA INDICAR QUE COMPILACIÓN DE VUE USAR */
+        resolve: {
+            alias: {
+              'vue$': 'vue/dist/vue.esm.js'
+            }
+        },
+        /* OPTIMIZACIONES */
+        optimization: {
+            /* PARA DIVIDIR O TROZAR EL CODIGO EN VARIOS ARCHIVOS CUANDO SE ENCUENTRE REPETIDO */
+            splitChunks: {
+              chunks: "all",
+            },
         },
         /* LOADERS */
         module:{
