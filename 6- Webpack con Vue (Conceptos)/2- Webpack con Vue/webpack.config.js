@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = (env, argv) => {
     //DETERMINO SI ES EL MODO DESARROLLO PARA INDICAR QUE TIPO SE SOURCE MAP UTILIZAR
@@ -12,7 +13,7 @@ module.exports = (env, argv) => {
         entry: './src/js/main.js',
         /* SALIDAS */
         output: {
-            filename: '[name].[contentHash].bundle.js',
+            filename: '[name].[hash].bundle.js',
             path: path.resolve(__dirname, 'dist')
         },
         /* MODO */
@@ -22,6 +23,7 @@ module.exports = (env, argv) => {
         /* WEBPACK DEV SERVER */
         devServer: {
             contentBase: './dist',
+            hot: true,
             port: 9000
         },
         /* PARA INDICAR QUE COMPILACIÓN DE VUE USAR */
@@ -50,11 +52,24 @@ module.exports = (env, argv) => {
                 },
                 /* PARA TRABAJAR CON CSS */
                 {
-                    test: /\.css$/,
+                    test: /\.scss$/,
                     use: [
-                        MiniCssExtractPlugin.loader,
-                        "css-loader"
-                    ]
+                        /* INDICO QUE LOADER UTILIZAR SI ES QUE SE ENCUENTRA EN DESARROLLO O PRODUCCIÓN */
+                            isDevelopment ? "vue-style-loader" : MiniCSSExtractPlugin.loader, 
+                            "css-loader",
+                            //"sass-loader"
+                            /* {
+                                loader: "sass-loader",
+                                options: {
+                                    prependData: `@import "./src/css/global.scss";`,
+                                },
+                            }, */
+                        ]
+                },
+                /* PARA TRABAJAR CON VUE */
+                {
+                    test: /\.vue$/,
+                    loader: "vue-loader"
                 },
                 /* PARA TRABAJAR CON IMAGENES */
                 {
@@ -65,6 +80,7 @@ module.exports = (env, argv) => {
         },
         /* PLUGINS */
         plugins:[
+            new VueLoaderPlugin(),
             new CleanWebpackPlugin(),
             new MiniCssExtractPlugin(),
             new HtmlWebpackPlugin({
