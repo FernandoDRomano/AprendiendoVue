@@ -35,9 +35,9 @@ module.exports = (env, argv) => {
         /* OPTIMIZACIONES */
         optimization: {
             /* PARA DIVIDIR O TROZAR EL CODIGO EN VARIOS ARCHIVOS CUANDO SE ENCUENTRE REPETIDO */
-            splitChunks: {
-              chunks: "all",
-            },
+            //splitChunks: {
+              //chunks: "all",
+            //},
         },
         /* LOADERS */
         module:{
@@ -61,7 +61,7 @@ module.exports = (env, argv) => {
                             {
                                 loader: "sass-loader",
                                 options: {
-                                    prependData: `@import "./css/global.scss";`,
+                                    prependData:`@import "${path.resolve(__dirname, 'src/css/global.scss')}";`,
                                 },
                             }, 
                         ]
