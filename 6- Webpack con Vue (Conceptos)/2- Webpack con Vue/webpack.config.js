@@ -13,7 +13,7 @@ module.exports = (env, argv) => {
         entry: './src/js/main.js',
         /* SALIDAS */
         output: {
-            filename: '[name].[hash].bundle.js',
+            filename: '[name].[contenthash].bundle.js',
             path: path.resolve(__dirname, 'dist')
         },
         /* MODO */
@@ -35,9 +35,16 @@ module.exports = (env, argv) => {
         /* OPTIMIZACIONES */
         optimization: {
             /* PARA DIVIDIR O TROZAR EL CODIGO EN VARIOS ARCHIVOS CUANDO SE ENCUENTRE REPETIDO */
-            //splitChunks: {
-              //chunks: "all",
-            //},
+            runtimeChunk: "single",
+            splitChunks: {
+                cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "all",
+                    },
+                },
+            },
         },
         /* LOADERS */
         module:{
@@ -55,7 +62,7 @@ module.exports = (env, argv) => {
                     test: /\.scss$/,
                     use: [
                         /* INDICO QUE LOADER UTILIZAR SI ES QUE SE ENCUENTRA EN DESARROLLO O PRODUCCIÓN */
-                            isDevelopment ? "vue-style-loader" : MiniCSSExtractPlugin.loader, 
+                            isDevelopment ? "vue-style-loader" : MiniCssExtractPlugin.loader, 
                             "css-loader",
                             //"sass-loader"
                             {
@@ -82,7 +89,12 @@ module.exports = (env, argv) => {
         plugins:[
             new VueLoaderPlugin(),
             new CleanWebpackPlugin(),
-            new MiniCssExtractPlugin(),
+            new MiniCssExtractPlugin({
+                // Options similar to the same options in webpackOptions.output
+                // both options are optional
+                filename: isDevelopment ? '[name].css' : '[name].[hash].css',
+                chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css',
+            }),
             new HtmlWebpackPlugin({
                 title: 'Webpack con Vue desde cero',
                 template: './src/index.html'
