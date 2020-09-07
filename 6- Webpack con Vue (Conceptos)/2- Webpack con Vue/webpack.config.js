@@ -58,12 +58,12 @@ module.exports = (env, argv) => {
                             isDevelopment ? "vue-style-loader" : MiniCSSExtractPlugin.loader, 
                             "css-loader",
                             //"sass-loader"
-                            /* {
+                            {
                                 loader: "sass-loader",
                                 options: {
-                                    prependData: `@import "./src/css/global.scss";`,
+                                    prependData: `@import "./css/global.scss";`,
                                 },
-                            }, */
+                            }, 
                         ]
                 },
                 /* PARA TRABAJAR CON VUE */

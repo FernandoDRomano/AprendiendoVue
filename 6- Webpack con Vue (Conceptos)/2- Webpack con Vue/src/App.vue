@@ -1,6 +1,6 @@
 <template>
   <main>
-    <a @click="getCat" href="#">Gatos please...</a>
+    <a @click="getCat" href="#">Gatos por favor...</a>
     <cat-image v-for="(image, $index) in catImages" :url="image" :key="$index">
     </cat-image>
   </main>
@@ -36,8 +36,6 @@ export default {
 
 <style lang="scss">
 
-//$principal: goldenrod;
-
 /* General */
 * {
   box-sizing: border-box;
@@ -67,7 +65,7 @@ h1 {
 main {
   padding: 0.5rem;
   min-height: 100vh;
-  background-color: $principal;
+  background-color: $primary;
   display: grid;
   grid-gap: 0.5rem;
   grid:
@@ -85,7 +83,7 @@ a {
   color: white;
   text-decoration: none;
   &:hover{
-    background-color: rgb(228, 244, 250);
+    background-color: $secundario;
     color: white;
   }
 }
